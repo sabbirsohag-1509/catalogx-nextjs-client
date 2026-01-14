@@ -192,7 +192,7 @@ const AddItems = () => {
 
           <button
             type="submit"
-            className="btn btn-primary mt-4 w-full sm:w-auto self-center"
+            className="btn btn-primary mt-4 w-full px-14 sm:w-auto self-center"
             disabled={loading}
           >
             {loading ? "Adding..." : "Add Item"}

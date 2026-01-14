@@ -7,6 +7,7 @@ import { EffectCoverflow, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
+import Link from "next/link";
 
 const Hero = () => {
   const slides = [
@@ -28,7 +29,7 @@ const Hero = () => {
           Explore curated catalogs, trending collections, and premium products —
           all in one powerful platform.
         </p>
-        <button className="btn btn-primary mt-6">Explore Catalogs</button>
+        <Link href="/items" className="btn btn-primary mt-6">Explore Catalogs</Link>
       </div>
 
       {/* Slider */}

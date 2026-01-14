@@ -2,7 +2,8 @@
 
 import { useQuery } from "@tanstack/react-query";
 import GlobalLoader from "../../loader/GlobalLoader";
-import { ShoppingCart } from "lucide";
+import { FaShoppingCart, FaTag } from "react-icons/fa";
+import { TbCurrencyTaka } from "react-icons/tb";
 
 const FeaturesItems = () => {
   const {
@@ -47,16 +48,22 @@ const FeaturesItems = () => {
           >
             {/* Discount Ribbon */}
             {item.discount && (
-              <div className="absolute top-3 left-0 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-br-lg shadow-md z-10">
-                {item.discount}% OFF
+              <div className="absolute top-3 left-0 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-br-lg shadow-md z-10 flex items-center">
+                <TbCurrencyTaka size={14}/> {item.discount} OFF
               </div>
             )}
+
+            {/* Price Badge with Icon */}
+            <div className="absolute top-3 right-3 bg-base-100 px-3 py-1 rounded-full shadow flex items-center gap-1 text-primary font-semibold text-sm">
+              <FaTag size={14} />৳{" "}
+              {item.discount ? item.price - item.discount : item.price}
+            </div>
 
             <figure className="relative">
               <img
                 src={item.mainImage}
                 alt={item.name}
-                className="h-52 w-full object-cover transition-transform duration-300 hover:scale-105"
+                className="h-48 w-full object-cover transition-transform duration-300 hover:scale-105"
               />
             </figure>
 
@@ -64,31 +71,36 @@ const FeaturesItems = () => {
               <h2 className="card-title text-base font-semibold">
                 {item.name}
               </h2>
+
               <p className="text-sm text-base-content/70 mt-1">
-                {item.description.slice(0, 80)}...
+                {item.description.slice(0, 60)}.....
               </p>
 
-              <div className="flex justify-between items-center mt-4">
-                <div className="flex items-center gap-2">
-                  {item.discount ? (
-                    <>
-                      <span className="text-sm text-base-content/50 line-through">
-                        ৳ {item.price}
-                      </span>
-                      <span className="text-primary font-bold">
-                        ৳{" "}
-                        {Math.round((item.price * (100 - item.discount)) / 100)}
-                      </span>
-                    </>
-                  ) : (
-                    <span className="text-primary font-bold">
-                      ৳ {item.price}
+              {/* Price Section */}
+              <div className="mt-1 flex items-center gap-3">
+                {item.discount ? (
+                  <>
+                    <span className=" text-base-content/50 line-through flex items-center gap-1">
+                      <TbCurrencyTaka size={14}/> {item.price}
                     </span>
-                  )}
-                </div>
+                    <span className="text-primary text-lg font-bold flex items-center">
+                      <TbCurrencyTaka size={14}/> {item.price - item.discount}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-primary font-bold flex items-center"><TbCurrencyTaka size={14}/> {item.price}</span>
+                )}
+              </div>
 
-                <button className="btn btn-sm btn-outline btn-primary flex items-center gap-1 hover:bg-primary hover:text-white transition-colors">
-                  <ShoppingCart size={16} /> Add to Cart
+              {/* Buttons: View Details + Add to Cart */}
+              <div className="mt-3 flex justify-between items-center gap-3">
+                <button className="btn btn-sm btn-outline w-1/2">
+                  View Details
+                </button>
+
+                <button className="btn btn-sm btn-primary w-1/2 flex items-center justify-center gap-1">
+                  <FaShoppingCart size={14} />
+                  Add to Cart
                 </button>
               </div>
             </div>
