@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import GlobalLoader from "../components/loader/GlobalLoader";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { FaShoppingCart, FaTag } from "react-icons/fa";
+import Link from "next/link";
 
 
 const Items = () => {
@@ -95,9 +96,9 @@ const Items = () => {
 
               {/* Buttons: View Details + Add to Cart */}
               <div className="mt-3 flex justify-between items-center gap-3">
-                <button className="btn btn-sm btn-outline w-1/2">
+                <Link href={`/items/${item._id}`} className="btn btn-sm btn-outline w-1/2">
                   View Details
-                </button>
+                </Link>
 
                 <button className="btn btn-sm btn-primary w-1/2 flex items-center justify-center gap-1">
                   <FaShoppingCart size={14} />
