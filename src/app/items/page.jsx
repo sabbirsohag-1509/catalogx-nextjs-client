@@ -13,11 +13,11 @@ const Items = () => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["items"],
+    queryKey: ["all-items"],
     queryFn: async () => {
       const res = await fetch("http://localhost:5000/all-items");
       if (!res.ok) throw new Error("Failed to fetch items");
-      return res.json();
+      return res.json(); 
     },
   });
 

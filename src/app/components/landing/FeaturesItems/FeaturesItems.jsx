@@ -16,7 +16,7 @@ const FeaturesItems = () => {
     queryFn: async () => {
       const res = await fetch("http://localhost:5000/items");
       if (!res.ok) throw new Error("Failed to fetch items");
-      return res.json();
+      return res.json(); 
     },
   });
 
