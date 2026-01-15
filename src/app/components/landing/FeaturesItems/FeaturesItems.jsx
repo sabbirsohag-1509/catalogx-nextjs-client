@@ -55,8 +55,8 @@ const FeaturesItems = () => {
             )}
 
             {/* Price Badge with Icon */}
-            <div className="absolute top-3 right-3 bg-base-100 px-3 py-1 rounded-full shadow flex items-center gap-1 text-primary font-semibold text-sm">
-              <FaTag size={14} />৳{" "}
+            <div className="absolute top-3 right-3 bg-base-100 px-3 py-1 rounded-full shadow flex items-center text-primary font-semibold text-sm">
+              <FaTag size={14} /> <TbCurrencyTaka size={14}/>{" "}
               {item.discount ? item.price - item.discount : item.price}
             </div>
 
@@ -102,7 +102,7 @@ const FeaturesItems = () => {
                 <button className="btn btn-sm btn-primary w-1/2 flex items-center justify-center gap-1">
                   <FaShoppingCart size={14} />
                   Add to Cart
-                </button>
+                </button> 
               </div>
             </div>
           </div>

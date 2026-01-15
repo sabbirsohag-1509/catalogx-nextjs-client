@@ -57,6 +57,17 @@ const Navbar = () => {
           Items
         </Link>
         <Link
+          href="/blogs"
+          className={`font-semibold px-3 py-1 rounded transition-colors ${
+            pathname === "/blogs"
+              ? "bg-primary text-primary-content"
+              : "hover:bg-base-200"
+          }`}
+        >
+          Blogs
+        </Link>
+        {/* Add Items btn  */}
+        <Link
           href="/add-items"
           className={`font-semibold px-3 py-1 rounded transition-colors ${
             pathname === "/add-items"
@@ -75,7 +86,7 @@ const Navbar = () => {
           <li>
             <Link
               href="/login"
-              className="btn btn-primary px-5"
+              className="btn btn-sm btn-primary px-5 py-2 rounded"
                 
             >
               Login
@@ -135,7 +146,7 @@ const Navbar = () => {
             >
               Add Items
             </Link>
-            <Link href="/login" className="btn btn-primary ">
+            <Link href="/login" className="btn btn-sm btn-primary px-5 py-1 rounded">
               Login
             </Link>
             <button
