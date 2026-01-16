@@ -98,4 +98,3 @@ Pass:
 All Credits Reserved Sabbir Hossain Sohag (2026)
 
 
-rm -rf .next node_modules package-lock.json
