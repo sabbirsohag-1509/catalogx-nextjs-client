@@ -88,8 +88,10 @@ It is fully responsive and optimized for both desktop and mobile devices.
 - **Tailwind CSS & DaisyUI** – Utility-first CSS framework with prebuilt UI components for responsive design  
 
 ---
-Live Link:
-GitHub Repository: 
+Live Link: https://catalogx-client.vercel.app
+
+GitHub Repository: https://github.com/sabbirsohag-1509/catalogx-nextjs-client
+
 
 - **Login Credentials**
 Admin: sabbir@gmail.com
