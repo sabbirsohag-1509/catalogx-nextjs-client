@@ -5,7 +5,16 @@ import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import Swal from "sweetalert2";
 
+import { useEffect } from "react";
+
 const AddItems = () => {
+  // Redirect to login if not logged in
+  useEffect(() => {
+    const match = document.cookie.match(/(?:^|; )auth=([^;]*)/);
+    if (!match) {
+      window.location.href = "/login";
+    }
+  }, []);
   const {
     register,
     handleSubmit,
@@ -34,7 +43,7 @@ const AddItems = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      await axios.post("http://localhost:5000/items", data);
+      await axios.post("https://catalogx-server.vercel.app/items", data);
       Swal.fire({
         icon: "success",
         title: "Item Added",

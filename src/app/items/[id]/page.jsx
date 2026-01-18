@@ -1,30 +1,29 @@
-'use client';
+"use client";
 
-import GlobalLoader from '@/app/components/loader/GlobalLoader';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
-import React, { useState } from 'react';
-import {
-  FaTag,
-  FaTimes,
-  FaImages,
-  FaShoppingCart
-} from 'react-icons/fa';
-import { TbCurrencyTaka } from 'react-icons/tb';
+import GlobalLoader from "@/app/components/loader/GlobalLoader";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import React, { useState } from "react";
+import { FaTag, FaTimes, FaImages, FaShoppingCart } from "react-icons/fa";
+import { TbCurrencyTaka } from "react-icons/tb";
 
 const ViewDetailsPage = () => {
   const { id } = useParams();
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const { data: item, isLoading, isError } = useQuery({
-    queryKey: ['item', id],
+  const {
+    data: item,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["item", id],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/items/${id}`);
+      const res = await fetch(`https://catalogx-server.vercel.app/items/${id}`);
       if (!res.ok) {
-        throw new Error('Failed to fetch item details');
+        throw new Error("Failed to fetch item details");
       }
       return res.json();
-    }
+    },
   });
 
   if (isLoading) return <GlobalLoader />;
@@ -40,25 +39,23 @@ const ViewDetailsPage = () => {
   // 🔹 Collect all images safely
   const allImages = [
     item?.mainImage
-      ? typeof item.mainImage === 'string'
+      ? typeof item.mainImage === "string"
         ? { url: item.mainImage }
         : item.mainImage
       : null,
-    ...((item?.images || []).map(img =>
-      typeof img === 'string' ? { url: img } : img
-    ))
+    ...(item?.images || []).map((img) =>
+      typeof img === "string" ? { url: img } : img,
+    ),
   ].filter(Boolean);
 
   //Discount calculation
-  const finalPrice =
-    item?.discount
-      ? Math.max(item.price - item.discount, 0)
-      : item?.price;
+  const finalPrice = item?.discount
+    ? Math.max(item.price - item.discount, 0)
+    : item?.price;
 
   return (
     <div className="max-w-7xl bg-base-100 mx-auto px-4 py-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-
         {/* ================= Image Section ================= */}
         <div>
           <div className="relative">
@@ -82,7 +79,7 @@ const ViewDetailsPage = () => {
               <img
                 key={idx}
                 src={img.url}
-                alt={`${item?.name || 'Image'} ${idx + 1}`}
+                alt={`${item?.name || "Image"} ${idx + 1}`}
                 className="h-20 md:h-28 w-28 md:w-36 object-cover rounded-lg cursor-pointer flex-shrink-0 transition-transform duration-200 hover:scale-105"
                 onClick={() => setSelectedImage(img)}
               />
@@ -92,13 +89,9 @@ const ViewDetailsPage = () => {
 
         {/* ================= Details Section ================= */}
         <div className="space-y-6">
-          <h1 className="text-3xl font-bold">
-            {item?.name}
-          </h1>
+          <h1 className="text-3xl font-bold">{item?.name}</h1>
 
-          <p className="leading-relaxed">
-            {item?.description}
-          </p>
+          <p className="leading-relaxed">{item?.description}</p>
 
           {/* Category + Price */}
           <div className="space-y-1">
@@ -145,12 +138,15 @@ const ViewDetailsPage = () => {
             </button>
           </div>
           {/* HardCoded Content  */}
-          <div className="mt-8"> 
+          <div className="mt-8">
             <h2 className="text-2xl font-semibold mb-4">Product Details</h2>
             <div className="space-y-3 text-gray-700">
               <p>• High-quality materials ensure durability and longevity.</p>
               <p>• Ergonomically designed for maximum comfort and usability.</p>
-              <p>• Available in multiple colors and sizes to suit your preferences.</p>
+              <p>
+                • Available in multiple colors and sizes to suit your
+                preferences.
+              </p>
               <p>• Easy to clean and maintain, perfect for everyday use.</p>
               <p>• Backed by a 1-year warranty for peace of mind.</p>
             </div>

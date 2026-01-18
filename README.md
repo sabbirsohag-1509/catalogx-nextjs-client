@@ -92,8 +92,8 @@ Live Link:
 GitHub Repository: 
 
 - **Login Credentials**
-Admin: 
-Pass:
+Admin: sabbir@gmail.com
+Pass: 123456
 
 All Credits Reserved Sabbir Hossain Sohag (2026)
 

@@ -14,9 +14,9 @@ const FeaturesItems = () => {
   } = useQuery({
     queryKey: ["items"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/items");
+      const res = await fetch("https://catalogx-server.vercel.app/items");
       if (!res.ok) throw new Error("Failed to fetch items");
-      return res.json(); 
+      return res.json();
     },
   });
 
@@ -50,13 +50,13 @@ const FeaturesItems = () => {
             {/* Discount Ribbon */}
             {item.discount && (
               <div className="absolute top-3 left-0 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-br-lg shadow-md z-10 flex items-center">
-                <TbCurrencyTaka size={14}/> {item.discount} OFF
+                <TbCurrencyTaka size={14} /> {item.discount} OFF
               </div>
             )}
 
             {/* Price Badge with Icon */}
             <div className="absolute top-3 right-3 bg-base-100 px-3 py-1 rounded-full shadow flex items-center text-primary font-semibold text-sm">
-              <FaTag size={14} /> <TbCurrencyTaka size={14}/>{" "}
+              <FaTag size={14} /> <TbCurrencyTaka size={14} />{" "}
               {item.discount ? item.price - item.discount : item.price}
             </div>
 
@@ -82,27 +82,32 @@ const FeaturesItems = () => {
                 {item.discount ? (
                   <>
                     <span className=" text-base-content/50 line-through flex items-center gap-1">
-                      <TbCurrencyTaka size={14}/> {item.price}
+                      <TbCurrencyTaka size={14} /> {item.price}
                     </span>
                     <span className="text-primary text-lg font-bold flex items-center">
-                      <TbCurrencyTaka size={14}/> {item.price - item.discount}
+                      <TbCurrencyTaka size={14} /> {item.price - item.discount}
                     </span>
                   </>
                 ) : (
-                  <span className="text-primary font-bold flex items-center"><TbCurrencyTaka size={14}/> {item.price}</span>
+                  <span className="text-primary font-bold flex items-center">
+                    <TbCurrencyTaka size={14} /> {item.price}
+                  </span>
                 )}
               </div>
 
               {/* Buttons: View Details + Add to Cart */}
               <div className="mt-3 flex justify-between items-center gap-3">
-                <Link href={`/items/${item._id}`} className="btn btn-sm btn-outline w-1/2">
+                <Link
+                  href={`/items/${item._id}`}
+                  className="btn btn-sm btn-outline w-1/2"
+                >
                   View Details
                 </Link>
 
                 <button className="btn btn-sm btn-primary w-1/2 flex items-center justify-center gap-1">
                   <FaShoppingCart size={14} />
                   Add to Cart
-                </button> 
+                </button>
               </div>
             </div>
           </div>

@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { FiSun, FiMoon, FiMenu } from "react-icons/fi";
 import { usePathname } from "next/navigation";
 
@@ -9,10 +10,20 @@ const Navbar = () => {
   const [theme, setTheme] = useState("cupcake");
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
+    setMounted(true);
+    const match = document.cookie.match(/(?:^|; )auth=([^;]*)/);
+    setIsLoggedIn(!!match);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      document.documentElement.setAttribute("data-theme", theme);
+    }
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "cupcake" ? "dark" : "cupcake"));
@@ -22,6 +33,7 @@ const Navbar = () => {
     setMenuOpen((prev) => !prev);
   };
 
+  if (!mounted) return null;
   return (
     <nav className="navbar bg-base-100 shadow px-4">
       <div className="flex-1 flex items-center">
@@ -68,7 +80,22 @@ const Navbar = () => {
         </Link>
         {/* Add Items btn  */}
         <Link
-          href="/add-items"
+          href={"/add-items"}
+          onClick={(e) => {
+            const match = document.cookie.match(/(?:^|; )auth=([^;]*)/);
+            if (!match) {
+              e.preventDefault();
+              Swal.fire({
+                icon: "info",
+                title: "Login Required",
+                text: "Please login to add items.",
+                timer: 1600,
+                showConfirmButton: false,
+              }).then(() => {
+                window.location.href = "/login";
+              });
+            }
+          }}
           className={`font-semibold px-3 py-1 rounded transition-colors ${
             pathname === "/add-items"
               ? "bg-primary text-primary-content"
@@ -84,18 +111,45 @@ const Navbar = () => {
         </button>
         <ul className="hidden md:flex menu menu-horizontal px-1">
           <li>
-            <Link
-              href="/login"
-              className="btn btn-sm btn-primary px-5 py-2 rounded"
-                
-            >
-              Login
-            </Link>
+            {isLoggedIn ? (
+              <button
+                onClick={() => {
+                  Swal.fire({
+                    title: "Are you sure?",
+                    text: "You will be logged out!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, logout!",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      document.cookie = "auth=; Max-Age=0; path=/";
+                      Swal.fire(
+                        "Logged out!",
+                        "You have been logged out.",
+                        "success",
+                      ).then(() => {
+                        location.reload();
+                      });
+                    }
+                  });
+                }}
+                className="btn btn-sm btn-error px-5 text-white"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link href="/login" className="btn btn-sm btn-primary px-5">
+                Login
+              </Link>
+            )}
           </li>
         </ul>
+
         {/* Hamburger for mobile */}
         <button
-          className="md:hidden btn btn-ghost btn-circle"
+          className="md:hidden btn btn-ghost btn-circle cursor-pointer"
           onClick={handleMenuToggle}
           aria-label="Open Menu"
         >
@@ -136,8 +190,24 @@ const Navbar = () => {
               Items
             </Link>
             <Link
-              href="/add-items"
-              onClick={handleMenuToggle}
+              href={"/add-items"}
+              onClick={(e) => {
+                const match = document.cookie.match(/(?:^|; )auth=([^;]*)/);
+                if (!match) {
+                  e.preventDefault();
+                  Swal.fire({
+                    icon: "info",
+                    title: "Login Required",
+                    text: "Please login to add items.",
+                    timer: 1600,
+                    showConfirmButton: false,
+                  }).then(() => {
+                    window.location.href = "/login";
+                  });
+                } else {
+                  handleMenuToggle();
+                }
+              }}
               className={`font-semibold px-3 py-2 rounded transition-colors ${
                 pathname === "/add-items"
                   ? "bg-primary text-primary-content"
@@ -146,9 +216,43 @@ const Navbar = () => {
             >
               Add Items
             </Link>
-            <Link href="/login" className="btn btn-sm btn-primary px-5 py-1 rounded">
-              Login
-            </Link>
+            {/* Auth button for mobile */}
+            <div className="flex md:hidden flex-col gap-2 mt-2">
+              {isLoggedIn ? (
+                <button
+                  onClick={() => {
+                    Swal.fire({
+                      title: "Are you sure?",
+                      text: "You will be logged out!",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonColor: "#d33",
+                      cancelButtonColor: "#3085d6",
+                      confirmButtonText: "Yes, logout!",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        document.cookie = "auth=; Max-Age=0; path=/";
+                        Swal.fire(
+                          "Logged out!",
+                          "You have been logged out.",
+                          "success",
+                        ).then(() => {
+                          location.reload();
+                        });
+                      }
+                    });
+                  }}
+                  className="btn btn-sm btn-error px-5 text-white"
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link href="/login" className="btn btn-sm btn-primary px-5">
+                  Login
+                </Link>
+              )}
+            </div>
+
             <button
               onClick={toggleTheme}
               className="btn btn-ghost btn-circle mt-4"

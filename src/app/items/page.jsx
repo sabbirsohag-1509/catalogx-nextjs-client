@@ -6,7 +6,6 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import { FaShoppingCart, FaTag } from "react-icons/fa";
 import Link from "next/link";
 
-
 const Items = () => {
   const {
     data: items = [],
@@ -15,9 +14,9 @@ const Items = () => {
   } = useQuery({
     queryKey: ["all-items"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/all-items");
+      const res = await fetch("https://catalogx-server.vercel.app/all-items");
       if (!res.ok) throw new Error("Failed to fetch items");
-      return res.json(); 
+      return res.json();
     },
   });
 
@@ -51,7 +50,7 @@ const Items = () => {
             {/* Discount Ribbon */}
             {item.discount && (
               <div className="absolute top-3 left-0 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-br-lg shadow-md z-10 flex items-center">
-                <TbCurrencyTaka size={14}/> {item.discount} OFF
+                <TbCurrencyTaka size={14} /> {item.discount} OFF
               </div>
             )}
 
@@ -83,20 +82,25 @@ const Items = () => {
                 {item.discount ? (
                   <>
                     <span className=" text-base-content/50 line-through flex items-center gap-1">
-                      <TbCurrencyTaka size={14}/> {item.price}
+                      <TbCurrencyTaka size={14} /> {item.price}
                     </span>
                     <span className="text-primary text-lg font-bold flex items-center">
-                      <TbCurrencyTaka size={14}/> {item.price - item.discount}
+                      <TbCurrencyTaka size={14} /> {item.price - item.discount}
                     </span>
                   </>
                 ) : (
-                  <span className="text-primary font-bold flex items-center"><TbCurrencyTaka size={14}/> {item.price}</span>
+                  <span className="text-primary font-bold flex items-center">
+                    <TbCurrencyTaka size={14} /> {item.price}
+                  </span>
                 )}
               </div>
 
               {/* Buttons: View Details + Add to Cart */}
               <div className="mt-3 flex justify-between items-center gap-3">
-                <Link href={`/items/${item._id}`} className="btn btn-sm btn-outline w-1/2">
+                <Link
+                  href={`/items/${item._id}`}
+                  className="btn btn-sm btn-outline w-1/2"
+                >
                   View Details
                 </Link>
 
